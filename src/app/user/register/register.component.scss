@@ -1,0 +1,77 @@
+@import "../../../../node_modules/primeng/resources/themes/lara-light-blue/theme.css";
+@import "../../../../node_modules/primeng/resources/primeng.css";
+@import "../../../../node_modules/primeicons/primeicons.css";
+
+body, main {
+  width: 100%;
+}
+
+p-menubar {
+  background-color: #1976d2;
+  color: white;
+
+  .ui-menuitem-link {
+    color: white !important;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .ui-menubar-root-list > .ui-menuitem {
+    margin-right: 16px;
+  }
+
+  .ui-menubar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 16px;
+  }
+}
+
+.register-container {
+  max-width: 60%;
+  margin: 0 auto;
+  margin-top: 80px;
+  padding: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fff;
+  text-align: center;
+
+  h2 {
+    margin-bottom: 24px;
+  }
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+
+  .form-field {
+    width: 100%;
+
+    p-floatLabel {
+      display: block;
+      margin-bottom: 16px;
+
+      input {
+        width: 100%;
+        padding: 8px;
+        box-sizing: border-box;
+      }
+
+      label {
+        left: 8px;
+      }
+    }
+  }
+
+  p-button {
+    align-self: center;
+  }
+}
+
