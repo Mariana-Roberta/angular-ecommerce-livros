@@ -1,0 +1,53 @@
+
+<header>
+  <nav>
+    <ul>
+      <li><a routerLink="/home" routerLinkActive="active">Home</a></li>
+      <li><a routerLink="/register-book" routerLinkActive="active">Cadastro Livro</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div class="register-container">
+  <h2>Formulário de Cadastro de Livros</h2>
+  <form [formGroup]="registerForm" (ngSubmit)="registerBook()" class="register-form">
+
+    <div class="form-field">
+      <div class="label-input">
+        <label for="titulo">Título</label>
+        <input id="titulo" type="text" pInputText formControlName="titulo" />
+      </div>
+    </div>
+
+    <div class="form-field">
+      <div class="label-input">
+        <label for="autor">Autor</label>
+        <input id="autor" type="text" pInputText formControlName="autor" />
+      </div>
+    </div>
+
+    <div class="form-field">
+      <div class="label-input">
+        <label for="sinopse">Sinopse</label>
+        <textarea id="sinopse" pInputTextarea formControlName="sinopse"></textarea>
+      </div>
+    </div>
+
+    <div class="form-field">
+      <div class="label-input">
+        <label for="valor">Valor</label>
+        <input id="valor" type="number" pInputText formControlName="valor" />
+      </div>
+    </div>
+
+    <div class="form-field">
+      <div class="label-input">
+        <label for="quantidade">Quantidade</label>
+        <input id="quantidade" type="number" pInputText formControlName="quantidade" />
+      </div>
+    </div>
+
+    <p-button label="Cadastrar" [raised]="true" type="submit"></p-button>
+
+  </form>
+</div>

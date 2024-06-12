@@ -2,43 +2,15 @@
 @import "primeng/resources/primeng.min.css";
 @import "primeicons/primeicons.css";
 
-body, main {
-  width: 100%;
-}
-
-p-menubar {
-  background-color: #1976d2;
-  color: white;
-
-  .ui-menuitem-link {
-    color: white !important;
-    text-decoration: none;
-
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-
-  .ui-menubar-root-list > .ui-menuitem {
-    margin-right: 16px;
-  }
-
-  .ui-menubar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 16px;
-  }
-}
-
 .register-container {
-  max-width: 60%;
+  max-width: 20%;
+  height: 400px;
   margin: 0 auto;
-  margin-top: 80px;
+  margin-top: 200px;
   padding: 16px;
   border: 1px solid #ccc;
   border-radius: 8px;
-  background-color: #fff;
+  background-color: #efefef;
   text-align: center;
 
   h2 {
@@ -50,13 +22,13 @@ p-menubar {
   display: flex;
   flex-direction: column;
   gap: 30px;
+  margin-top: 80px;
 
   .form-field {
     width: 100%;
 
-    .label-input {
-      display: flex;
-      flex-direction: column;
+    p-floatLabel {
+      display: block;
       margin-bottom: 16px;
 
       input {
@@ -66,9 +38,6 @@ p-menubar {
       }
 
       label {
-        align-self: flex-start;
-        margin-bottom: 10px;
-        color: #262626;
         left: 8px;
       }
     }
@@ -78,4 +47,3 @@ p-menubar {
     align-self: center;
   }
 }
-

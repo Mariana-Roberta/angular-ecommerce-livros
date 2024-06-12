@@ -31,7 +31,7 @@ export class RegisterComponent {
       telefone: ['', Validators.required], // Adicionei validação básica de required
       endereco: ['', Validators.required],
       senha: ['', [Validators.required, Validators.minLength(6)]],
-      tipoUsuario: ['CLIENTE', Validators.required]
+      tipoUsuario: ['ADMIN', Validators.required]
     });
   }
 
@@ -41,6 +41,7 @@ export class RegisterComponent {
         (response: any) => {
           console.log('Usuário registrado com sucesso!', response);
           this.user.push(response);
+          this.registerForm.reset();
         },
         (error: any) => {
           console.error('Erro ao registrar usuário', error);

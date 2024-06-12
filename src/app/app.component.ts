@@ -3,6 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { HttpClientModule} from "@angular/common/http";
 import {FloatLabelModule} from "primeng/floatlabel";
 import {ButtonModule} from "primeng/button";
+import {ReactiveFormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-root',
@@ -11,7 +12,8 @@ import {ButtonModule} from "primeng/button";
     RouterOutlet,
     HttpClientModule,
     FloatLabelModule,
-    ButtonModule
+    ButtonModule,
+    ReactiveFormsModule
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'

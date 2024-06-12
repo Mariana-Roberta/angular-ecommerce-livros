@@ -1,0 +1,36 @@
+<header>
+  <nav>
+    <ul>
+      <li><a routerLink="/home" routerLinkActive="active">Home</a></li>
+      <li><a routerLink="/admin/livro/cadastro" routerLinkActive="active">Cadastro Livro</a></li>
+      <li><a routerLink="/admin/livro/lista"  routerLinkActive="active">Lista Livros</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div class="biblioteca">
+  <h2>Lista de Livros</h2>
+</div>
+
+<div class="register-container">
+  <div *ngIf="books.length > 0; else noBooks" class="books-list">
+    <div class="book-card" *ngFor="let book of books">
+      <div class="book-card-content">
+        <div class="img"></div>
+        <h3 class="book-title">{{ book.titulo }}</h3>
+        <p class="book-author"><strong>Autor:</strong>  {{ book.autor }}</p>
+        <p class="book-synopsis"><strong>Sinopse:</strong>  {{ book.sinopse }}</p>
+        <p class="book-price"><strong>Valor: R$</strong> {{ book.valor }}</p>
+        <p class="book-quantity"><strong>Quantidade:</strong> {{ book.quantidade }}</p>
+        <div class="btns">
+          <p-button (click)="editBook(book)">Editar</p-button>
+          <p-button>Deletar</p-button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #noBooks>
+    <p>Nenhum livro encontrado.</p>
+  </ng-template>
+</div>
+

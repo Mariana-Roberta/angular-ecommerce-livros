@@ -1,0 +1,134 @@
+@import "primeicons/primeicons.css";
+
+.biblioteca {
+  display: flex;
+  justify-content: center;
+  width: 70%;
+  margin-left: 15%;
+  margin-top: 80px;
+}
+
+
+.register-container {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+  }
+
+  .books-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+  }
+
+  .book-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    width: 300px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+    position: relative;
+    padding-bottom: 60px;
+
+    &:hover {
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .book-card-content {
+      padding: 20px;
+      height: 100%;
+
+      .book-title {
+        font-size: 1.5em;
+        margin-bottom: 10px;
+        color: #007bff;
+      }
+
+      .img {
+        height: 240px;
+        width: auto;
+        background-color: #262626;
+      }
+
+      .book-author,
+      .book-synopsis,
+      .book-price,
+      .book-quantity {
+        margin-bottom: 8px;
+        color: #555;
+
+        strong {
+          color: #333;
+        }
+
+        em {
+          color: #666;
+        }
+
+    }
+      .btns {
+       position: absolute;
+       bottom: 10px;
+       left: 20px;
+       right: 20px;
+       display: flex;
+       justify-content: space-between;
+
+       button {
+         width: 45%;
+       }
+     }
+  }
+  }
+}
+
+
+header {
+  display:flex;
+  justify-content: center;
+  align-content: center;
+  background-color: #333;
+  padding: 10px 0;
+  height:70px;
+}
+
+nav ul {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+}
+
+nav ul li {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  margin-right: 20px;
+  border-bottom: 2px solid #ccc;
+  padding: 10px;
+}
+
+nav ul li a {
+  color: #fff;
+  text-decoration: none;
+
+}
+
+nav ul li a:hover {
+  color: #ccc;
+}
+
+.active {
+  font-weight: bold;
+}
