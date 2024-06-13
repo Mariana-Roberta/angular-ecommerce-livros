@@ -13,11 +13,23 @@ public class LivroService {
     @Autowired
     private LivroRepository livroRepository;
 
+    public List<Livro> findAll() {
+        return livroRepository.findAll();
+    }
+
+    public Livro findById(Long id) {
+      return this.livroRepository.findById(id).orElseThrow(() -> new RuntimeException("Livro não encontrado"));
+    }
+
     public Livro save(Livro livro) {
         return livroRepository.save(livro);
     }
 
-    public List<Livro> findAll() {
-        return livroRepository.findAll();
+    public void delete(Long id){
+      this.livroRepository.deleteById(id);
+    }
+
+    public List<Livro> searchBooks(String term) {
+      return livroRepository.searchBooks(term);
     }
 }

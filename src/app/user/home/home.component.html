@@ -1,1 +1,42 @@
-<p>home works!</p>
+<header>
+  <nav>
+    <ul>
+      <li><a routerLink="/home" routerLinkActive="active">Home</a></li>
+      <li><a routerLink="/register-book" routerLinkActive="active">Cadastro Livro</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div class="biblioteca">
+  <h2>Biblioteca</h2>
+  <div class="form-field">
+    <div class="label-input">
+      <input id="search" type="text" pInputText [(ngModel)]="searchTerm" placeholder="Pesquisar"/>
+      <p-button (click)="searchBooks()"><span class="pi pi-search"></span></p-button>
+    </div>
+  </div>
+</div>
+
+<div class="book-grid">
+  <div *ngFor="let book of books" class="book-item">
+    <p-card>
+      <div class="book-card">
+        <div class="book-info">
+          <img [src]="book.cover" alt="{{ book.titulo }}" >
+          <h3>{{ book.titulo }}</h3>
+          <p class="p-sinopse"><strong>Sinopse:</strong> {{ book.sinopse }}</p>
+          <p><strong>Autor:</strong> {{ book.autor }}</p>
+          <p><strong>Preço: R$</strong> {{ book.valor }}</p>
+          <p><strong>Quantidade:</strong> {{ book.quantidade }}</p>
+        </div>
+      </div>
+    </p-card>
+    <div class="quantity-control">
+      <button pButton type="button" icon="pi pi-plus" (click)="incrementQuantity()"></button>
+      <p-inputNumber [ngModel]="quantity" (ngModelChange)="onQuantityChange($event)" [min]="1" [max]="999" [step]="1"></p-inputNumber>
+      <button pButton type="button" icon="pi pi-minus" (click)="decrementQuantity()"></button>
+    </div>
+
+    <p-button label="Adicionar ao Carrinho"></p-button>
+  </div>
+</div>

@@ -22,7 +22,6 @@ public class ItemCarrinho {
     private Integer quantidade;
 
     // Getters and setters
-
     public Long getId() {
         return id;
     }

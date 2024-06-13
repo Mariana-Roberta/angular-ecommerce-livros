@@ -33,6 +33,13 @@ export class BookService {
       );
   }
 
+  searchBooks(term: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/search?term=${term}`)
+      .pipe(
+        catchError(this.handleError<any[]>('searchBooks', []))
+      );
+  }
+
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       console.error(`${operation} failed: ${error.message}`);

@@ -26,4 +26,9 @@ public class LivroController {
     public List<Livro> getAllLivro() {
         return livroService.findAll();
     }
+
+    @GetMapping("/search")
+    public List<Livro> searchBooks(@RequestParam String term) {
+      return livroService.searchBooks(term);
+    }
 }

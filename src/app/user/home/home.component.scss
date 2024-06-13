@@ -1,0 +1,160 @@
+@import "primeicons/primeicons.css";
+
+
+::ng-deep {
+  .p-inputnumber {
+    margin: 0 5px 0;
+  }
+  .p-inputnumber * {
+    width: 35px;
+    height: 35px;
+  }
+}
+
+
+.biblioteca {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  width: 70%;
+  margin: 80px 0 40px 15%;
+
+  h2, .form-field {
+    align-self: center;
+  }
+
+  .label-input {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+
+}
+
+
+.book-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: flex-start;
+  width: 70%;
+  margin: 0 0 120px 15%;
+}
+
+.book-item {
+  width: calc(33.333% - 16px);
+  box-sizing: border-box;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  gap: 50px;
+  background-color: #efefef;
+  border-radius: 7px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+  p-button {
+    align-self: center;
+    margin: 0 0 20px 0;
+  }
+
+  .quantity-control {
+    display: flex;
+    justify-content: center;
+
+    button {
+      width: 35px;
+      height: 35px;
+    }
+  }
+
+}
+
+p-card, p-card-body {
+  height: 500px;
+}
+
+.book-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Align all children to the left */
+  flex-grow: 1; /* Allow book-info to take up remaining space */
+  width: 100%; /* Ensure book-info takes up full width */
+  padding: 8px;
+  box-sizing: border-box;
+
+  img {
+    width: 100%;
+    height: 140px;
+    margin-bottom: 8px;
+    border-radius: 7px;
+    align-self: center;
+  }
+
+  h3 {
+    margin: 8px 0;
+    align-self: flex-start;
+  }
+
+  p {
+    text-align: justify;
+    margin: 4px 0;
+    align-self: flex-start;
+  }
+
+  .p-sinopse {
+    height: 140px;
+    width: 100%;
+    overflow: hidden; /* Ensure text doesn't overflow the container */
+    text-overflow: ellipsis;
+  }
+
+}
+
+
+header {
+  display:flex;
+  justify-content: center;
+  align-content: center;
+  background-color: #333;
+  padding: 10px 0;
+  height:70px;
+}
+
+nav ul {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+}
+
+nav ul li {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  margin-right: 20px;
+  border-bottom: 2px solid #ccc;
+  padding: 10px;
+}
+
+nav ul li a {
+  color: #fff;
+  text-decoration: none;
+
+}
+
+nav ul li a:hover {
+  color: #ccc;
+}
+
+.active {
+  font-weight: bold;
+}

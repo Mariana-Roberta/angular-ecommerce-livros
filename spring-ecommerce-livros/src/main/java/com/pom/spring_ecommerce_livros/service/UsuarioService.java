@@ -13,11 +13,19 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository userRepository;
 
+    public List<Usuario> findAll() {
+        return userRepository.findAll();
+    }
+
+    public Usuario findById(Long id) {
+      return this.userRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+    }
+
     public Usuario save(Usuario usuario) {
         return userRepository.save(usuario);
     }
 
-    public List<Usuario> findAll() {
-        return userRepository.findAll();
+    public void delete(Long id){
+      this.userRepository.deleteById(id);
     }
 }
