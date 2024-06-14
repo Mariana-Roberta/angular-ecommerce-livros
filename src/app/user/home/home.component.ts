@@ -7,6 +7,7 @@ import {BookService} from "../../services/book.service";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {InputTextModule} from "primeng/inputtext";
 import {InputNumberModule} from "primeng/inputnumber";
+import {CartService} from "../../services/cart.service";
 
 @Component({
   selector: 'app-home',
@@ -29,7 +30,7 @@ export class HomeComponent {
   books: any[] = [];
   searchTerm: string = '';
 
-  constructor(private router: Router, private bookService: BookService) {
+  constructor(private router: Router, private bookService: BookService, private cartService: CartService) {
     this.loadBooks();
   }
 
@@ -42,6 +43,12 @@ export class HomeComponent {
         console.error('Erro ao carregar livros', error);
       }
     );
+  }
+
+  addToCart(book: Book) {
+    this.cartService.addToCart(book);
+    // Aqui você pode adicionar qualquer lógica adicional, como exibir uma mensagem de sucesso
+    console.log(`Livro "${book.titulo}" adicionado ao carrinho.`);
   }
 
   searchBooks(): void {

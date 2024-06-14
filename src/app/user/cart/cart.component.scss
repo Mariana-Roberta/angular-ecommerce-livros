@@ -1,0 +1,146 @@
+
+::ng-deep {
+  .p-inputnumber {
+    margin: 0 5px 0;
+  }
+  .p-inputnumber * {
+    width: 35px;
+    height: 35px;
+  }
+}
+
+
+header {
+  display:flex;
+  justify-content: center;
+  align-content: center;
+  background-color: #333;
+  padding: 10px 0;
+  height:70px;
+}
+
+nav ul {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+}
+
+nav ul li {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  margin-right: 20px;
+  border-bottom: 2px solid #ccc;
+  padding: 10px;
+}
+
+nav ul li a {
+  color: #fff;
+  text-decoration: none;
+
+}
+
+nav ul li a:hover {
+  color: #ccc;
+}
+
+.active {
+  font-weight: bold;
+}
+
+
+.cart-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .cart-items-list {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    .cart-item-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      align-self: center;
+      border: 1px solid #ccc;
+      padding: 16px;
+      margin: 8px 0;
+      width: 80%;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+      .cart-item-content {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+
+        .book-content {
+          display: flex;
+          width: 100%;
+          margin-bottom: 20px;
+
+          .img {
+            width: 20%;
+            height: 250px;
+            background-color: #f0f0f0;
+
+            margin-right: 30px;
+          }
+
+          .written-book-content {
+            margin: 0 8px;
+            width: 100%;
+          }
+          .item-title,
+           .item-author,
+           .item-price,
+           .item-quantity {
+             margin: 8px 0;
+           }
+          .item-title {
+            font-size: 24px;
+          }
+        }
+
+        .btns {
+          display: flex;
+          gap: 8px;
+          width:100%;
+          justify-content: flex-end;
+
+          .total-price {
+            display: flex;
+            border-radius: 7px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 4px 3px;
+            align-items: center;
+
+            .item-total {
+              font-size: 20px;
+              height: 24px;
+              margin: 0;
+            }
+          }
+
+          .quantity-control {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            button {
+              width: 35px;
+              height: 35px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -4,6 +4,7 @@ import { HttpClientModule} from "@angular/common/http";
 import {FloatLabelModule} from "primeng/floatlabel";
 import {ButtonModule} from "primeng/button";
 import {ReactiveFormsModule} from "@angular/forms";
+import {CartComponent} from "./user/cart/cart.component";
 
 @Component({
   selector: 'app-root',
@@ -11,6 +12,7 @@ import {ReactiveFormsModule} from "@angular/forms";
   imports: [
     RouterOutlet,
     HttpClientModule,
+    CartComponent,
     FloatLabelModule,
     ButtonModule,
     ReactiveFormsModule

@@ -1,0 +1,45 @@
+<header>
+  <nav>
+    <ul>
+      <li><a routerLink="/home" routerLinkActive="active">Home</a></li>
+      <li><a routerLink="/shop" routerLinkActive="active">Shop</a></li>
+      <li><a routerLink="/cart" routerLinkActive="active">Cart</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div class="cart">
+  <h2>Seu Carrinho</h2>
+</div>
+
+<div class="cart-container">
+  <div *ngIf="cartItems.length > 0; else emptyCart" class="cart-items-list">
+    <div class="cart-item-card" *ngFor="let item of cartItems">
+      <div class="cart-item-content">
+        <div class="book-content">
+          <div class="img"></div>
+          <div class="written-book-content">
+            <h3 class="item-title">{{ item.titulo }}</h3>
+            <p class="item-author"><strong>Autor:</strong> {{ item.autor }}</p>
+            <p class="item-synopses"><strong>Sinopse:</strong> {{ item.sinopse }}</p>
+            <p class="item-price"><strong>Valor: R$</strong> {{ item.valor }}</p>
+          </div>
+        </div>
+        <div class="btns">
+          <div class="total-price">
+            <p class="item-total"><strong>Total: R$</strong> {{ item.valor }}</p>
+          </div>
+          <div class="quantity-control">
+            <button pButton type="button" icon="pi pi-plus" (click)="incrementQuantity()"></button>
+            <p-inputNumber [ngModel]="quantity" (ngModelChange)="onQuantityChange($event)" [min]="1" [max]="999" [step]="1"></p-inputNumber>
+            <button pButton type="button" icon="pi pi-minus" (click)="decrementQuantity()"></button>
+          </div>
+          <p-button class="remove_btn" (click)="removeItem(item)">Remover</p-button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #emptyCart>
+    <p>Seu carrinho está vazio.</p>
+  </ng-template>
+</div>
