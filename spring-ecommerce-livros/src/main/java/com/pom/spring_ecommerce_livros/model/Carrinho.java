@@ -1,5 +1,6 @@
 package com.pom.spring_ecommerce_livros.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -14,14 +15,12 @@ public class Carrinho {
 
     @ManyToOne
     @JoinColumn(name = "id_usuario", nullable = false)
+    @JsonIgnoreProperties("carrinhos")
     private Usuario usuario;
 
     @Column(name = "data_criacao", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataCriacao;
-
-    @OneToMany(mappedBy = "carrinho", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ItemCarrinho> itensCarrinho;
 
     // Getters and setters
 
@@ -43,13 +42,5 @@ public class Carrinho {
 
     public void setDataCriacao(Date dataCriacao) {
         this.dataCriacao = dataCriacao;
-    }
-
-    public List<ItemCarrinho> getItensCarrinho() {
-        return itensCarrinho;
-    }
-
-    public void setItensCarrinho(List<ItemCarrinho> itensCarrinho) {
-        this.itensCarrinho = itensCarrinho;
     }
 }

@@ -31,4 +31,9 @@ public class LivroController {
     public List<Livro> searchBooks(@RequestParam String term) {
       return livroService.searchBooks(term);
     }
+
+    @GetMapping("/findByName")
+    public Livro findBookByName(@RequestParam String nome) {
+      return livroService.findBookByName(nome);
+    }
 }

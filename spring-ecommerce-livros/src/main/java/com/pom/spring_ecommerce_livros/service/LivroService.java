@@ -32,4 +32,8 @@ public class LivroService {
     public List<Livro> searchBooks(String term) {
       return livroRepository.searchBooks(term);
     }
+
+  public Livro findBookByName(String nome) {
+    return livroRepository.findByTituloContainingIgnoreCase(nome).stream().findFirst().orElse(null);
+  }
 }

@@ -28,6 +28,7 @@ import {CartService} from "../../services/cart.service";
 })
 export class HomeComponent {
   books: any[] = [];
+  carrinhoId: number | null = null;
   searchTerm: string = '';
 
   constructor(private router: Router, private bookService: BookService, private cartService: CartService) {
@@ -45,11 +46,28 @@ export class HomeComponent {
     );
   }
 
-  addToCart(book: Book) {
-    this.cartService.addToCart(book);
-    // Aqui você pode adicionar qualquer lógica adicional, como exibir uma mensagem de sucesso
-    console.log(`Livro "${book.titulo}" adicionado ao carrinho.`);
+  addToCart(livroNome: string) {
+    this.bookService.findBookByName(livroNome).subscribe(book => {
+      if (book) {
+        const livroId = book.id;
+        if (!this.carrinhoId) {
+          this.cartService.createCart(1).subscribe(carrinho => { // Aqui, 1 é o ID do usuário. Ajuste conforme necessário.
+            this.carrinhoId = carrinho.id;
+            this.cartService.addItemToCart(this.carrinhoId, livroId, this.quantity).subscribe(() => {
+              console.log('Livro adicionado ao carrinho.');
+            });
+          });
+        } else {
+          this.cartService.addItemToCart(this.carrinhoId, livroId, this.quantity).subscribe(() => {
+            console.log('Livro adicionado ao carrinho.');
+          });
+        }
+      } else {
+        console.error('Livro não encontrado');
+      }
+    });
   }
+
 
   searchBooks(): void {
     this.bookService.searchBooks(this.searchTerm).subscribe(data => {

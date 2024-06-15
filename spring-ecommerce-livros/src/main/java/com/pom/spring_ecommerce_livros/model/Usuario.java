@@ -32,13 +32,8 @@ public class Usuario {
     @Column(name = "tipo_usuario", nullable = false)
     private String tipoUsuario;
 
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Carrinho> carrinhos;
 
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Pedido> pedidos;
-
-    // Getters and setters
+  // Getters and setters
 
     public Long getId() {
         return id;
@@ -100,19 +95,4 @@ public class Usuario {
         this.tipoUsuario = tipoUsuario;
     }
 
-    public List<Carrinho> getCarrinhos() {
-        return carrinhos;
-    }
-
-    public void setCarrinhos(List<Carrinho> carrinhos) {
-        this.carrinhos = carrinhos;
-    }
-
-    public List<Pedido> getPedidos() {
-        return pedidos;
-    }
-
-    public void setPedidos(List<Pedido> pedidos) {
-        this.pedidos = pedidos;
-    }
 }

@@ -5,7 +5,7 @@ import {AdminModule} from "./admin/admin.module";
 
 export const routes: Routes = [
   { path: 'cadastro', component: RegisterComponent },
-  {path: 'user', loadChildren: () => import('./user/user.module').then(m => m.UserModule)},
+  {path: 'usuario', loadChildren: () => import('./user/user.module').then(m => m.UserModule)},
   {path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule)},
   { path: '', redirectTo: '/user/login', pathMatch: 'full' }, // Redireciona para 'home' por padrão
   { path: '**', component: RegisterComponent } // Página não encontrada
