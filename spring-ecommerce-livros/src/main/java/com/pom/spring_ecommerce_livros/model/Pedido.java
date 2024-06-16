@@ -1,66 +1,73 @@
 package com.pom.spring_ecommerce_livros.model;
 
 import jakarta.persistence.*;
+import org.springframework.cglib.core.Local;
+
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "pedidos")
 public class Pedido {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_pedido")
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id_pedido")
+  private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "id_usuario", nullable = false)
-    private Usuario usuario;
+  @ManyToOne
+  @JoinColumn(name = "id_usuario", nullable = false)
+  private Usuario usuario;
 
-    @Column(name = "data_pedido", nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date dataPedido;
+  @Column(nullable = false, updatable = false)
+  private LocalDateTime dataPedido;
 
-    @Column(name = "status", nullable = false)
-    private String status;
 
-    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ItemPedido> itensPedido;
+  @Column(name = "status", nullable = false)
+  private String status;
 
-    // Getters and setters
+  @Column(name = "valor", nullable = false)
+  private Double valor;
 
-    public Long getId() {
-        return id;
-    }
+  @PrePersist
+  protected void onCreate() {
+    dataPedido = LocalDateTime.now();
+  }
+  // Getters and setters
 
-    public Usuario getUsuario() {
-        return usuario;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
+  public Usuario getUsuario() {
+    return usuario;
+  }
 
-    public Date getDataPedido() {
-        return dataPedido;
-    }
+  public void setUsuario(Usuario usuario) {
+    this.usuario = usuario;
+  }
 
-    public void setDataPedido(Date dataPedido) {
-        this.dataPedido = dataPedido;
-    }
+  public LocalDateTime getDataPedido() {
+    return dataPedido;
+  }
 
-    public String getStatus() {
-        return status;
-    }
+  public void setDataPedido(LocalDateTime dataPedido) {
+    this.dataPedido = dataPedido;
+  }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+  public String getStatus() {
+    return status;
+  }
 
-    public List<ItemPedido> getItensPedido() {
-        return itensPedido;
-    }
+  public void setStatus(String status) {
+    this.status = status;
+  }
 
-    public void setItensPedido(List<ItemPedido> itensPedido) {
-        this.itensPedido = itensPedido;
-    }
+  public Double getValor() {
+    return valor;
+  }
+
+  public void setValor(Double valor) {
+    this.valor = valor;
+  }
 }

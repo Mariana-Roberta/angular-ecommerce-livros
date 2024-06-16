@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ItemCarrinhoService {
@@ -31,7 +32,7 @@ public class ItemCarrinhoService {
     return itemCarrinhoRepository.findById(itemCarrinhoId).orElseThrow();
   }
 
-  public ItemCarrinho addItemToCarrinho(Long carrinhoId, Long livroId, Integer quantidade) {
+  public ItemCarrinho addItemToCarrinho(Long carrinhoId, Long livroId, Integer quantidade, Double valor) {
     Carrinho carrinho = carrinhoRepository.findById(carrinhoId).orElseThrow();
     Livro livro = livroRepository.findById(livroId).orElseThrow();
 
@@ -40,7 +41,8 @@ public class ItemCarrinhoService {
 
     if (itemExistente != null) {
       // Se o item já existe, atualiza a quantidade
-      itemExistente.setQuantidade(itemExistente.getQuantidade() + quantidade);
+      itemExistente.setQuantidade(quantidade);
+      itemExistente.setValor(valor);
       return itemCarrinhoRepository.save(itemExistente);
     } else {
       // Se o item não existe, cria um novo item no carrinho
@@ -48,6 +50,7 @@ public class ItemCarrinhoService {
       newItem.setCarrinho(carrinho);
       newItem.setLivro(livro);
       newItem.setQuantidade(quantidade);
+      newItem.setValor(valor);
       return itemCarrinhoRepository.save(newItem);
     }
   }
@@ -79,5 +82,14 @@ public class ItemCarrinhoService {
 
   public ItemCarrinho save(ItemCarrinho itemCarrinho) {
     return itemCarrinhoRepository.save(itemCarrinho);
+  }
+
+  public boolean removeItem(Long itemId) {
+    Optional<ItemCarrinho> item = itemCarrinhoRepository.findById(itemId);
+    if (item.isPresent()) {
+      itemCarrinhoRepository.deleteById(itemId);
+      return true;
+    }
+    return false;
   }
 }

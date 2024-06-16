@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {BehaviorSubject, catchError, map, Observable, throwError} from "rxjs";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 
@@ -10,28 +10,25 @@ export class CartService {
   private cartSubject = new BehaviorSubject<any[]>(this.cart);
   private apiUrl = 'http://localhost:8080/usuario/carrinho';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+  }
 
-  // Verifica se um livro está no carrinho
+  getCartItems(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/listaItens`)
+      .pipe(
+        map(response => response),
+        catchError(this.handleError)
+      );
+  }
+
   getItemsByLivroId(carrinhoId: number, livroId: number): Observable<any[]> {
     const url = `${this.apiUrl}/itens?livroId=${livroId}`;
     return this.http.get<any[]>(url);
   }
 
-  getItemsByCarrinhoId(carrinhoId: number): Observable<any[]> {
-    const url = `${this.apiUrl}/itens?carrinhoId=${carrinhoId}`;
-    return this.http.get<any[]>(url);
-  }
-
-  getItemsByCarrinhoIdAndLivroId(carrinhoId: number, livroId: number): Observable<any[]> {
-    const url = `${this.apiUrl}/itens?carrinhoId=${carrinhoId}+livroId=${livroId}`;
-    return this.http.get<any[]>(url);
-  }
-
-  // Atualiza a quantidade de um item no carrinho
   updateItemQuantity(itemId: number, quantidade: number): Observable<any> {
     const url = `${this.apiUrl}/item/${itemId}`;
-    const request = { quantidade };
+    const request = {quantidade};
 
     return this.http.put<any>(url, request)
       .pipe(
@@ -41,7 +38,7 @@ export class CartService {
   }
 
   createCart(usuarioId: number): Observable<any> {
-    const requestBody = { usuarioId: usuarioId };
+    const requestBody = {usuarioId: usuarioId};
     return this.http.post<any>(`${this.apiUrl}/criar`, requestBody)
       .pipe(
         map(response => response),
@@ -53,7 +50,7 @@ export class CartService {
     console.log(carrinhoId);
     console.log(livroId);
     console.log(quantidade);
-    const itemCarrinho = { carrinhoId, livroId, quantidade };
+    const itemCarrinho = {carrinhoId, livroId, quantidade};
     return this.http.post<any>(`${this.apiUrl}/addItem`, itemCarrinho)
       .pipe(
         map(response => response),
@@ -61,8 +58,8 @@ export class CartService {
       );
   }
 
-  getCartByUserId(usuarioId: number): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/usuario/${usuarioId}`)
+  removeItemFromCart(itemId: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/deleteItem`, { body: { itemId } })
       .pipe(
         map(response => response),
         catchError(this.handleError)

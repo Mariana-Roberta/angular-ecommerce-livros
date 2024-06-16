@@ -2,6 +2,7 @@ package com.pom.spring_ecommerce_livros.controller;
 
 import com.pom.spring_ecommerce_livros.dto.AdicionarItemRequest;
 import com.pom.spring_ecommerce_livros.dto.AtualizarQuantidadeRequest;
+import com.pom.spring_ecommerce_livros.dto.DeleteItemRequest;
 import com.pom.spring_ecommerce_livros.dto.UsuarioIdRequest;
 import com.pom.spring_ecommerce_livros.model.Carrinho;
 import com.pom.spring_ecommerce_livros.model.ItemCarrinho;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/usuario/carrinho")
+@RequestMapping("/usuario")
 @CrossOrigin("*")
 public class CarrinhoController {
 
@@ -31,8 +32,7 @@ public class CarrinhoController {
   @Autowired
   private ItemCarrinhoService itemCarrinhoService;
 
-  // Adicionar item ao carrinho ou atualizar a quantidade se já existir
-  @PostMapping("/addItem")
+  @PostMapping("/carrinho/addItem")
   public ResponseEntity<ItemCarrinho> adicionarOuAtualizarItemCarrinho(@RequestBody AdicionarItemRequest request) {
     Long carrinhoId = request.getCarrinhoId();
     Long livroId = request.getLivroId();
@@ -45,32 +45,33 @@ public class CarrinhoController {
       return ResponseEntity.notFound().build();
     }
 
-    // Verifica se o livro já está no carrinho
+    Double valor = quantidade * livro.getValor();
     ItemCarrinho itemExistente = itemCarrinhoService.findByCarrinhoIdAndLivroId(carrinhoId, livroId);
 
     if (itemExistente != null) {
-      // Se o item já existe, atualiza a quantidade
-      itemExistente.setQuantidade(itemExistente.getQuantidade() + quantidade);
+      itemExistente.setQuantidade(quantidade);
+      itemExistente.setValor(valor);
       itemCarrinhoService.save(itemExistente); // Atualiza o item existente
       return ResponseEntity.ok(itemExistente);
     } else {
-      // Se o item não existe, cria um novo
-      ItemCarrinho novoItem = itemCarrinhoService.addItemToCarrinho(carrinho.getId(), livro.getId(), quantidade);
+      ItemCarrinho novoItem = itemCarrinhoService.addItemToCarrinho(carrinho.getId(), livro.getId(), quantidade, valor);
       return ResponseEntity.ok(novoItem);
     }
   }
 
-  // Métodos adicionais conforme necessário para buscar itens, criar carrinho, etc.
-  // Exemplo:
-
-  // Endpoint para buscar todos os itens do carrinho
-  @GetMapping("/itens")
+  @GetMapping("/carrinho/itens")
   public ResponseEntity<List<ItemCarrinho>> getItensDoCarrinho(@RequestParam Long livroId) {
     List<ItemCarrinho> itens = itemCarrinhoService.findAllByLivroId(livroId);
     return ResponseEntity.ok(itens);
   }
 
-  @PutMapping("/item/{itemId}")
+  @GetMapping("/carrinho/listaItens")
+  public ResponseEntity<List<ItemCarrinho>> getItensDoCarrinho() {
+    List<ItemCarrinho> itens = itemCarrinhoService.findAll();
+    return ResponseEntity.ok(itens);
+  }
+
+  @PutMapping("/carrinho/item/{itemId}")
   public ResponseEntity<ItemCarrinho> updateItemQuantity(
     @PathVariable Long itemId,
     @RequestBody AtualizarQuantidadeRequest request) {
@@ -88,7 +89,16 @@ public class CarrinhoController {
     return ResponseEntity.ok(itemCarrinho);
   }
 
-  @PostMapping("/criar")
+  @DeleteMapping("/carrinho/deleteItem")
+  public ResponseEntity<Void> deleteItemDoCarrinho(@RequestBody DeleteItemRequest deleteItemRequest) {
+    boolean isRemoved = itemCarrinhoService.removeItem(deleteItemRequest.getItemId());
+    if (!isRemoved) {
+      return ResponseEntity.notFound().build();
+    }
+    return ResponseEntity.ok().build();
+  }
+
+  @PostMapping("/carrinho/criar")
   public ResponseEntity<Carrinho> criarCarrinho(@RequestBody UsuarioIdRequest request) {
     Long usuarioId = request.getUsuarioId();
     Carrinho novoCarrinho = carrinhoService.createCarrinho(usuarioId);

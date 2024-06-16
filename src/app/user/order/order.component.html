@@ -11,7 +11,7 @@
 </header>
 
 <div class="cart">
-  <h2>Seu Carrinho</h2>
+  <h2>Seu Pedido</h2>
 </div>
 
 <div class="cart-container">
@@ -25,24 +25,19 @@
             <p class="item-author"><strong>Autor:</strong> {{ item.livro.autor }}</p>
             <p class="item-synopses"><strong>Sinopse:</strong> {{ item.livro.sinopse }}</p>
             <p class="item-price"><strong>Valor: R$</strong> {{ item.livro.valor }}</p>
+            <p class="item-quantity"><strong>Quantidade: </strong> {{ item.quantidade }}</p>
           </div>
         </div>
         <div class="btns">
           <div class="total-price">
             <p class="item-total"><strong>Total: R$</strong> {{ item.livro.valor * item.quantidade }}</p>
           </div>
-          <div class="quantity-control">
-            <button pButton type="button" icon="pi pi-plus" (click)="incrementQuantity(item)"></button>
-            <p-inputNumber [ngModel]="item.quantidade" (ngModelChange)="updateItemQuantity(item.id, $event)" [min]="1" [max]="999" [step]="1"></p-inputNumber>
-            <button pButton type="button" icon="pi pi-minus" (click)="decrementQuantity(item)"></button>
-          </div>
-          <p-button class="remove_btn" (click)="removeItem(item)">Remover</p-button>
         </div>
       </div>
     </div>
-    <p-button label="Finalizar Pedido" (click)="finalizeOrder()" ></p-button><!-- método que transfere os dados de carrinho+itens para pedido+itens-->
+    <p-button label="Confirmar Pedido" (click)="confirmOrder()" ></p-button><!-- método de deletar carrinho+itens e confirmar o status do pedido-->
   </div>
   <ng-template #emptyCart>
-    <p>Seu carrinho está vazio.</p>
+    <p>Seu pedido está vazio.</p>
   </ng-template>
 </div>

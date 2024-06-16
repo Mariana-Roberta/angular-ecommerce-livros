@@ -38,7 +38,6 @@ export class HomeComponent {
   }
 
   ngOnInit(): void {
-    // Inicialize a quantidade para cada livro quando o componente for inicializado
     this.books = this.books.map(book => ({...book, quantity: 1}));
   }
 
@@ -57,13 +56,9 @@ export class HomeComponent {
     this.bookService.findBookByName(livroNome).subscribe(book => {
       if (book) {
         const livroId = book.id;
-        console.log("Pegou info do livro: " + book.id);
 
-        // Verifica se o carrinho já existe
         if (this.carrinhoId === null) {
-          console.log("Carrinho ainda não criado, criando agora...");
           this.cartService.createCart(1).subscribe(carrinho => {
-            console.log("carrinho & carrinhoID  " + carrinho + "    |"+ carrinho.id);
             if (carrinho && carrinho.id) {
               console.log("Carrinho criado com sucesso. ID:", carrinho.id);
               this.carrinhoId = carrinho.id;
@@ -84,21 +79,15 @@ export class HomeComponent {
 
 
   private addOrUpdateItemInCart(livroId: number, quantidade: number) {
-    console.log("chegou no addOrUpdate");
-    console.log(this.carrinhoId);
     if (this.carrinhoId !== null) {
       this.cartService.getItemsByLivroId(this.carrinhoId, livroId).subscribe(items => {
-        console.log("getitemsbylivroid");
         if (items && items.length > 0) {
-          // Se o livro já estiver no carrinho, atualize a quantidade
-          const itemId = items[0].id; // Supondo que o serviço retorne o ID do item no carrinho
+          const itemId = items[0].id;
           this.cartService.updateItemQuantity(itemId, quantidade).subscribe(() => {
             console.log('Quantidade do livro atualizada no carrinho.');
           });
         } else {
-      console.log("teste para addOrUpdate");
           if (this.carrinhoId !== null) {
-            // Se o livro não estiver no carrinho, adicione um novo item
             this.cartService.addItemToCart(this.carrinhoId, livroId, quantidade).subscribe(() => {
               console.log('Livro adicionado ao carrinho.');
             });
