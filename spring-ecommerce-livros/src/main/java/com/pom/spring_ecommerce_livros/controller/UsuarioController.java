@@ -32,8 +32,8 @@ public class UsuarioController {
         return usuarioService.findAll();
     }
 
-  @PostMapping("/carrinho/criar")
-  public Carrinho criarCarrinho(@RequestParam Long usuarioId) {
-    return carrinhoService.criarCarrinho(usuarioId);
-  }
+    @PostMapping("/carrinho/criar")
+    public Carrinho criarCarrinho(@RequestParam Long usuarioId) {
+      return carrinhoService.criarCarrinho(usuarioId);
+    }
 }
