@@ -27,12 +27,19 @@ import {CartService} from "../../services/cart.service";
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {
-  books: any[] = [];
+  @Input() books: any[] = [];
+  @Input() quantity: number = 1;
+  @Output() quantityChange: EventEmitter<number> = new EventEmitter<number>();
   carrinhoId: number | null = null;
   searchTerm: string = '';
 
   constructor(private router: Router, private bookService: BookService, private cartService: CartService) {
     this.loadBooks();
+  }
+
+  ngOnInit(): void {
+    // Inicialize a quantidade para cada livro quando o componente for inicializado
+    this.books = this.books.map(book => ({...book, quantity: 1}));
   }
 
   loadBooks() {
@@ -46,26 +53,59 @@ export class HomeComponent {
     );
   }
 
-  addToCart(livroNome: string) {
+  addToCart(livroNome: string, quantidade: number) {
     this.bookService.findBookByName(livroNome).subscribe(book => {
       if (book) {
         const livroId = book.id;
-        if (!this.carrinhoId) {
-          this.cartService.createCart(1).subscribe(carrinho => { // Aqui, 1 é o ID do usuário. Ajuste conforme necessário.
-            this.carrinhoId = carrinho.id;
-            this.cartService.addItemToCart(this.carrinhoId, livroId, this.quantity).subscribe(() => {
-              console.log('Livro adicionado ao carrinho.');
-            });
+        console.log("Pegou info do livro: " + book.id);
+
+        // Verifica se o carrinho já existe
+        if (this.carrinhoId === null) {
+          console.log("Carrinho ainda não criado, criando agora...");
+          this.cartService.createCart(1).subscribe(carrinho => {
+            console.log("carrinho & carrinhoID  " + carrinho + "    |"+ carrinho.id);
+            if (carrinho && carrinho.id) {
+              console.log("Carrinho criado com sucesso. ID:", carrinho.id);
+              this.carrinhoId = carrinho.id;
+              this.addOrUpdateItemInCart(livroId, quantidade);
+            } else {
+              console.error('Erro ao criar o carrinho.');
+            }
           });
         } else {
-          this.cartService.addItemToCart(this.carrinhoId, livroId, this.quantity).subscribe(() => {
-            console.log('Livro adicionado ao carrinho.');
-          });
+          console.log("Carrinho já existe. ID:", this.carrinhoId);
+          this.addOrUpdateItemInCart(livroId, quantidade);
         }
       } else {
         console.error('Livro não encontrado');
       }
     });
+  }
+
+
+  private addOrUpdateItemInCart(livroId: number, quantidade: number) {
+    console.log("chegou no addOrUpdate");
+    console.log(this.carrinhoId);
+    if (this.carrinhoId !== null) {
+      this.cartService.getItemsByLivroId(this.carrinhoId, livroId).subscribe(items => {
+        console.log("getitemsbylivroid");
+        if (items && items.length > 0) {
+          // Se o livro já estiver no carrinho, atualize a quantidade
+          const itemId = items[0].id; // Supondo que o serviço retorne o ID do item no carrinho
+          this.cartService.updateItemQuantity(itemId, quantidade).subscribe(() => {
+            console.log('Quantidade do livro atualizada no carrinho.');
+          });
+        } else {
+      console.log("teste para addOrUpdate");
+          if (this.carrinhoId !== null) {
+            // Se o livro não estiver no carrinho, adicione um novo item
+            this.cartService.addItemToCart(this.carrinhoId, livroId, quantidade).subscribe(() => {
+              console.log('Livro adicionado ao carrinho.');
+            });
+          }
+        }
+      });
+    }
   }
 
 
@@ -75,22 +115,20 @@ export class HomeComponent {
     });
   }
 
-  @Input() quantity: number = 1;
-  @Output() quantityChange: EventEmitter<number> = new EventEmitter<number>(); // Inicialize corretamente aqui
-
-  onQuantityChange(event: any) {
-    this.quantityChange.emit(this.quantity);
+  onQuantityChange(book: any, event: any) {
+    book.quantity = event;
+    this.quantityChange.emit(book.quantity);
   }
 
-  incrementQuantity() {
-    this.quantity++;
-    this.quantityChange.emit(this.quantity);
+  incrementQuantity(book: any) {
+    book.quantity++;
+    this.quantityChange.emit(book.quantity);
   }
 
-  decrementQuantity() {
-    if (this.quantity > 1) {
-      this.quantity--;
-      this.quantityChange.emit(this.quantity);
+  decrementQuantity(book: any) {
+    if (book.quantity > 1) {
+      book.quantity--;
+      this.quantityChange.emit(book.quantity);
     }
   }
 }

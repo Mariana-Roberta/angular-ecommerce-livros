@@ -12,39 +12,65 @@ export class CartService {
 
   constructor(private http: HttpClient) {}
 
-  createCart(usuarioId: number): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/criar?usuarioId=${usuarioId}`)
+  // Verifica se um livro está no carrinho
+  getItemsByLivroId(carrinhoId: number, livroId: number): Observable<any[]> {
+    const url = `${this.apiUrl}/itens?livroId=${livroId}`;
+    return this.http.get<any[]>(url);
+  }
+
+  getItemsByCarrinhoId(carrinhoId: number): Observable<any[]> {
+    const url = `${this.apiUrl}/itens?carrinhoId=${carrinhoId}`;
+    return this.http.get<any[]>(url);
+  }
+
+  getItemsByCarrinhoIdAndLivroId(carrinhoId: number, livroId: number): Observable<any[]> {
+    const url = `${this.apiUrl}/itens?carrinhoId=${carrinhoId}+livroId=${livroId}`;
+    return this.http.get<any[]>(url);
+  }
+
+  // Atualiza a quantidade de um item no carrinho
+  updateItemQuantity(itemId: number, quantidade: number): Observable<any> {
+    const url = `${this.apiUrl}/item/${itemId}`;
+    const request = { quantidade };
+
+    return this.http.put<any>(url, request)
       .pipe(
-        map(response => {
-          // Certifique-se de que o response é um JSON válido
-          return response;
-        }),
+        map(response => response),
+        catchError(this.handleError)
+      );
+  }
+
+  createCart(usuarioId: number): Observable<any> {
+    const requestBody = { usuarioId: usuarioId };
+    return this.http.post<any>(`${this.apiUrl}/criar`, requestBody)
+      .pipe(
+        map(response => response),
         catchError(this.handleError)
       );
   }
 
   addItemToCart(carrinhoId: number, livroId: number, quantidade: number): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/adicionarItem`, null, {
-      params: {
-        carrinhoId: carrinhoId.toString(),
-        livroId: livroId.toString(),
-        quantidade: quantidade.toString()
-      }
-    });
+    console.log(carrinhoId);
+    console.log(livroId);
+    console.log(quantidade);
+    const itemCarrinho = { carrinhoId, livroId, quantidade };
+    return this.http.post<any>(`${this.apiUrl}/addItem`, itemCarrinho)
+      .pipe(
+        map(response => response),
+        catchError(this.handleError)
+      );
   }
 
-  getCart() {
-    return this.cartSubject.asObservable();
+  getCartByUserId(usuarioId: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/usuario/${usuarioId}`)
+      .pipe(
+        map(response => response),
+        catchError(this.handleError)
+      );
   }
 
-  addToCart(book: any) {
-    this.cart.push(book);
-    this.cartSubject.next(this.cart);
-  }
-
-
-  private handleError(error: HttpErrorResponse): Observable<never> {
-    console.error('An error occurred:', error.message);
+  private handleError(error: any): Observable<never> {
+    console.error('An error occurred', error);
     return throwError('Something went wrong; please try again later.');
   }
 }

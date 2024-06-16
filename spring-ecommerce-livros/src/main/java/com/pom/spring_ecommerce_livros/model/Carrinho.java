@@ -2,6 +2,8 @@ package com.pom.spring_ecommerce_livros.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -18,9 +20,13 @@ public class Carrinho {
     @JsonIgnoreProperties("carrinhos")
     private Usuario usuario;
 
-    @Column(name = "data_criacao", nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date dataCriacao;
+  @Column(nullable = false, updatable = false)
+  private LocalDateTime dataCriacao;
+
+  @PrePersist
+  protected void onCreate() {
+    dataCriacao = LocalDateTime.now();
+  }
 
     // Getters and setters
 
@@ -36,11 +42,11 @@ public class Carrinho {
         this.usuario = usuario;
     }
 
-    public Date getDataCriacao() {
+    public LocalDateTime getDataCriacao() {
         return dataCriacao;
     }
 
-    public void setDataCriacao(Date dataCriacao) {
+    public void setDataCriacao(LocalDateTime dataCriacao) {
         this.dataCriacao = dataCriacao;
     }
 }

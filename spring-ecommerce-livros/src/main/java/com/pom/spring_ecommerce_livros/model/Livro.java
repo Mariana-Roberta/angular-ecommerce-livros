@@ -21,10 +21,10 @@ public class Livro {
     private String sinopse;
 
     @Column(name = "valor", nullable = false)
-    private double valor;
+    private Double valor;
 
     @Column(name = "qtd", nullable = false)
-    private int quantidade;
+    private Integer quantidade;
 
     public Long getId() {
         return id;
@@ -54,19 +54,19 @@ public class Livro {
         this.sinopse = sinopse;
     }
 
-    public double getValor() {
+    public Double getValor() {
         return valor;
     }
 
-    public void setValor(double valor) {
+    public void setValor(Double valor) {
         this.valor = valor;
     }
 
-    public int getQuantidade() {
+    public Integer getQuantidade() {
         return quantidade;
     }
 
-    public void setQuantidade(int quantidade) {
+    public void setQuantidade(Integer quantidade) {
         this.quantidade = quantidade;
     }
 }

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class CarrinhoService {
@@ -28,23 +29,30 @@ public class CarrinhoService {
   @Autowired
   private UsuarioRepository usuarioRepository;
 
-  public Carrinho criarCarrinho(Long usuarioId) {
+  public List<Carrinho> findAll() {return this.carrinhoRepository.findAll();}
+
+  public Carrinho findById(Long id) {return this.carrinhoRepository.findById(id).orElse(null);}
+
+  public Carrinho createCarrinho(Usuario usuario) {
     Carrinho carrinho = new Carrinho();
-    Usuario usuario = usuarioRepository.findById(usuarioId).orElseThrow();
     carrinho.setUsuario(usuario);
-    carrinho.setDataCriacao(new Date());
     return carrinhoRepository.save(carrinho);
   }
 
-  public ItemCarrinho adicionarItemAoCarrinho(Long carrinhoId, Long livroId, Integer quantidade) {
-    Carrinho carrinho = carrinhoRepository.findById(carrinhoId).orElseThrow();
-    Livro livro = livroRepository.findById(livroId).orElseThrow();
+  public Carrinho createCarrinho(Long usuarioId) {
+    Usuario usuario = usuarioRepository.findById(usuarioId)
+      .orElseThrow(() -> new RuntimeException("Usuário não encontrado com ID: " + usuarioId));
 
-    ItemCarrinho itemCarrinho = new ItemCarrinho();
-    itemCarrinho.setCarrinho(carrinho);
-    itemCarrinho.setLivro(livro);
-    itemCarrinho.setQuantidade(quantidade);
+    Carrinho carrinho = new Carrinho();
+    carrinho.setUsuario(usuario);
+    System.out.print(usuario);
 
-    return itemCarrinhoRepository.save(itemCarrinho);
+    return carrinhoRepository.save(carrinho);
   }
+
+
+  public Carrinho findCarrinhoByUsuarioId(Long usuarioId) {
+    return this.carrinhoRepository.findByUsuarioId(usuarioId);
+  }
+
 }

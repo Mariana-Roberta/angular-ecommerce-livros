@@ -32,11 +32,11 @@
       </div>
     </p-card>
     <div class="quantity-control">
-      <button pButton type="button" icon="pi pi-plus" (click)="incrementQuantity()"></button>
-      <p-inputNumber [ngModel]="quantity" (ngModelChange)="onQuantityChange($event)" [min]="1" [max]="999" [step]="1"></p-inputNumber>
-      <button pButton type="button" icon="pi pi-minus" (click)="decrementQuantity()"></button>
+      <button pButton type="button" icon="pi pi-plus" (click)="incrementQuantity(book)"></button>
+      <p-inputNumber [(ngModel)]="book.quantity" (ngModelChange)="onQuantityChange(book, $event)" [min]="1" [max]="999" [step]="1"></p-inputNumber>
+      <button pButton type="button" icon="pi pi-minus" (click)="decrementQuantity(book)"></button>
     </div>
 
-    <p-button label="Adicionar ao Carrinho" (click)="addToCart(book.titulo)"></p-button>
+    <p-button label="Adicionar ao Carrinho" (click)="addToCart(book.titulo, book.quantity)"></p-button>
   </div>
 </div>
