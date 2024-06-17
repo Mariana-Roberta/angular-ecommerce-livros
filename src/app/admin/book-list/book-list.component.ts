@@ -39,7 +39,16 @@ export class BookListComponent {
   }
 
   editBook(book: any) {
-    this.router.navigate(['/admin/livro/cadastro'], { state: { book } });
+    this.router.navigate(['/admin/livro/editar'], { state: { book } });
+  }
+
+  deleteBook(bookId: number): void {
+    this.bookService.deleteBook(bookId).subscribe(() => {
+      this.books = this.books.filter(book => book.id !== bookId);
+      console.log('Book deleted successfully');
+    }, error => {
+      console.error('Error deleting book:', error);
+    });
   }
 
 }

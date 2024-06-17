@@ -32,6 +32,10 @@ public class ItemCarrinhoService {
     return itemCarrinhoRepository.findById(itemCarrinhoId).orElseThrow();
   }
 
+  public List<ItemCarrinho> findByUserId(Long userId) {
+    return itemCarrinhoRepository.findByUserId(userId);
+  }
+
   public ItemCarrinho addItemToCarrinho(Long carrinhoId, Long livroId, Integer quantidade, Double valor) {
     Carrinho carrinho = carrinhoRepository.findById(carrinhoId).orElseThrow();
     Livro livro = livroRepository.findById(livroId).orElseThrow();

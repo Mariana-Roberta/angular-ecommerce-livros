@@ -36,4 +36,14 @@ public class LivroService {
   public Livro findBookByName(String nome) {
     return livroRepository.findByTituloContainingIgnoreCase(nome).stream().findFirst().orElse(null);
   }
+
+  public Livro updateBook(Long id, Livro bookDetails) {
+    Livro book = livroRepository.findById(id).orElseThrow(() -> new RuntimeException("Livro não encontrado"));
+    book.setTitulo(bookDetails.getTitulo());
+    book.setAutor(bookDetails.getAutor());
+    book.setSinopse(bookDetails.getSinopse());
+    book.setValor(bookDetails.getValor());
+    book.setQuantidade(bookDetails.getQuantidade());
+    return livroRepository.save(book);
+  }
 }

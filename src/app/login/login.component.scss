@@ -2,15 +2,18 @@
 @import "primeng/resources/primeng.min.css";
 @import "primeicons/primeicons.css";
 
-.register-container {
-  max-width: 20%;
-  height: 400px;
+body, main {
+  width: 100%;
+}
+
+.login-container {
+  max-width: 60%;
   margin: 0 auto;
-  margin-top: 200px;
+  margin-top: 80px;
   padding: 16px;
   border: 1px solid #ccc;
   border-radius: 8px;
-  background-color: #efefef;
+  background-color: #fff;
   text-align: center;
 
   h2 {
@@ -18,17 +21,17 @@
   }
 }
 
-.register-form {
+.login-form {
   display: flex;
   flex-direction: column;
   gap: 30px;
-  margin-top: 80px;
 
   .form-field {
     width: 100%;
 
-    p-floatLabel {
-      display: block;
+    .label-input {
+      display: flex;
+      flex-direction: column;
       margin-bottom: 16px;
 
       input {
@@ -38,6 +41,9 @@
       }
 
       label {
+        align-self: flex-start;
+        margin-bottom: 10px;
+        color: #262626;
         left: 8px;
       }
     }

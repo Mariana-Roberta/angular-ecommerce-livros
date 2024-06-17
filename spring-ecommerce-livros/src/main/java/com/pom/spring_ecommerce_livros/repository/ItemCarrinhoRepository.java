@@ -25,4 +25,7 @@ public interface ItemCarrinhoRepository extends JpaRepository<ItemCarrinho, Long
 
   @Query("DELETE FROM ItemCarrinho ic WHERE ic.carrinho.id = :carrinhoId")
   void deleteByCarrinhoId(Long carrinhoId);
+
+  @Query("SELECT ic FROM ItemCarrinho ic WHERE ic.carrinho.usuario.id = :usuarioId")
+  List<ItemCarrinho> findByUserId(@Param("usuarioId") Long usuarioId);
 }

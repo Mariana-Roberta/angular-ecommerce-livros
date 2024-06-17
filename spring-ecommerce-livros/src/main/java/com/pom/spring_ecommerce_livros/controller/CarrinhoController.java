@@ -45,7 +45,7 @@ public class CarrinhoController {
       return ResponseEntity.notFound().build();
     }
 
-    Double valor = quantidade * livro.getValor();
+    Double valor = (quantidade * livro.getValor());
     ItemCarrinho itemExistente = itemCarrinhoService.findByCarrinhoIdAndLivroId(carrinhoId, livroId);
 
     if (itemExistente != null) {
@@ -103,6 +103,16 @@ public class CarrinhoController {
     Long usuarioId = request.getUsuarioId();
     Carrinho novoCarrinho = carrinhoService.createCarrinho(usuarioId);
     return ResponseEntity.ok(novoCarrinho);
+  }
+
+  @GetMapping("/carrinho/user/{userId}")
+  public ResponseEntity<Carrinho> getCartByUserId(@PathVariable Long userId) {
+    Carrinho cart = carrinhoService.findCarrinhoByUsuarioId(userId);
+    if (cart != null) {
+      return ResponseEntity.ok(cart);
+    } else {
+      return ResponseEntity.notFound().build();
+    }
   }
 }
 

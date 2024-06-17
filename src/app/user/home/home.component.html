@@ -1,8 +1,9 @@
 <header>
   <nav>
     <ul>
-      <li><a routerLink="/home" routerLinkActive="active">Home</a></li>
-      <li><a routerLink="/register-book" routerLinkActive="active">Cadastro Livro</a></li>
+      <li><a routerLink="/usuario/home" >Home</a></li>
+      <li><a routerLink="/usuario/carrinho">Carrinho</a></li>
+      <li><a routerLink="/usuario/pedidos">Pedido</a></li>
     </ul>
   </nav>
 </header>
@@ -27,7 +28,6 @@
           <p class="p-sinopse"><strong>Sinopse:</strong> {{ book.sinopse }}</p>
           <p><strong>Autor:</strong> {{ book.autor }}</p>
           <p><strong>Preço: R$</strong> {{ book.valor }}</p>
-          <p><strong>Quantidade:</strong> {{ book.quantidade }}</p>
         </div>
       </div>
     </p-card>

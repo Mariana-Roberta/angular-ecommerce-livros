@@ -7,6 +7,8 @@ import {FormsModule} from "@angular/forms";
 import {BookService} from "../../services/book.service";
 import {CartService} from "../../services/cart.service";
 import {OrderService} from "../../services/order.service";
+import {AuthService} from "../../services/auth.service";
+import {User} from "../../models/user.model";
 
 @Component({
   selector: 'app-cart',
@@ -27,13 +29,17 @@ export class CartComponent {
   cartItems: any[] = [];
   quantity: number = 1;
   orderId: number | null = null;
+  userAtual: User | null = null;
 
   @Output() quantityChange = new EventEmitter<number>();
 
-  constructor(private cartService: CartService, private orderService: OrderService, private router: Router) { }
+  constructor(private cartService: CartService, private orderService: OrderService, private router: Router, private authService: AuthService) {
+    console.log("construtor", this.authService.userValue);
+
+  }
 
   ngOnInit(): void {
-    this.loadCartItems(); // Carregar os itens do carrinho ao inicializar o componente
+    this.loadCartItems();
   }
 
   // Método para carregar os itens do carrinho
@@ -48,6 +54,19 @@ export class CartComponent {
       }
     );
   }
+
+ /* loadCartItemsByUserId(userId: Number) {
+    this.cartService.getCartItemsByUserId(userId).subscribe(
+      (items: any[]) => {
+        console.log(items);
+        this.cartItems = items;
+        console.log("byuserid",items);
+      },
+      (error) => {
+        console.error('Erro ao carregar itens do carrinho:', error);
+      }
+    );
+  }*/
 
   trackById(index: number, item: any): number {
     return item.id; // Supondo que cada item do carrinho tenha um campo 'id'

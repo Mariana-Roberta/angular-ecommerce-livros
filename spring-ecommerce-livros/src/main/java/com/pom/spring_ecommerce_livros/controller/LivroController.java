@@ -45,4 +45,34 @@ public class LivroController {
     }
   }
 
+  @GetMapping("/{id}")
+  public ResponseEntity<Livro> getBookById(@PathVariable Long id) {
+    try {
+      Livro livro = livroService.findById(id);
+      return ResponseEntity.ok(livro);
+    } catch (RuntimeException e) {
+      return ResponseEntity.notFound().build();
+    }
+  }
+
+  @PutMapping("/editar/{id}")
+  public ResponseEntity<Livro> updateBook(@PathVariable Long id, @RequestBody Livro bookDetails) {
+    try {
+      Livro updatedBook = livroService.updateBook(id, bookDetails);
+      return ResponseEntity.ok(updatedBook);
+    } catch (RuntimeException e) {
+      return ResponseEntity.notFound().build();
+    }
+  }
+
+  @DeleteMapping("/{id}")
+  public ResponseEntity<Void> deleteBook(@PathVariable Long id) {
+    try {
+      livroService.delete(id);
+      return ResponseEntity.noContent().build();
+    } catch (RuntimeException e) {
+      return ResponseEntity.notFound().build();
+    }
+  }
+
 }

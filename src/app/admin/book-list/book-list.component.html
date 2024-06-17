@@ -1,7 +1,7 @@
 <header>
   <nav>
     <ul>
-      <li><a routerLink="/home" routerLinkActive="active">Home</a></li>
+      <li><a routerLink="/login" routerLinkActive="active">Login</a></li>
       <li><a routerLink="/admin/livro/cadastro" routerLinkActive="active">Cadastro Livro</a></li>
       <li><a routerLink="/admin/livro/lista"  routerLinkActive="active">Lista Livros</a></li>
     </ul>
@@ -24,7 +24,7 @@
         <p class="book-quantity"><strong>Quantidade:</strong> {{ book.quantidade }}</p>
         <div class="btns">
           <p-button (click)="editBook(book)">Editar</p-button>
-          <p-button>Deletar</p-button>
+          <p-button (click)="deleteBook(book.id)">Deletar</p-button>
         </div>
       </div>
     </div>

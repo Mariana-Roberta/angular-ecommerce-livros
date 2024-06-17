@@ -1,6 +1,9 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, catchError, map, Observable, throwError} from "rxjs";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
+import {AuthService} from "./auth.service";
+import {User} from "../models/user.model";
+import {Cart} from "../models/cart.model";
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +14,15 @@ export class CartService {
   private apiUrl = 'http://localhost:8080/usuario/carrinho';
 
   constructor(private http: HttpClient) {
+  }
+
+  getCartByUserId(userId: Number): Observable<any> {
+    const url = `${this.apiUrl}/user/${userId}`; // Ajuste o endpoint da sua API conforme necessário
+    return this.http.get<any>(url);
+  }
+
+  getCartItemsByUserId(userId: Number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/users/${userId}/carrinho/items`);
   }
 
   getCartItems(): Observable<any[]> {
@@ -37,7 +49,7 @@ export class CartService {
       );
   }
 
-  createCart(usuarioId: number): Observable<any> {
+  createCart(usuarioId: Number): Observable<any> {
     const requestBody = {usuarioId: usuarioId};
     return this.http.post<any>(`${this.apiUrl}/criar`, requestBody)
       .pipe(

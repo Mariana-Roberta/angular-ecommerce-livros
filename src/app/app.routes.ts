@@ -2,11 +2,13 @@ import { Routes } from '@angular/router';
 import {RegisterComponent} from "./user/register/register.component";
 import {UserModule} from "./user/user.module";
 import {AdminModule} from "./admin/admin.module";
+import {LoginComponent} from "./login/login.component";
 
 export const routes: Routes = [
   { path: 'cadastro', component: RegisterComponent },
   {path: 'usuario', loadChildren: () => import('./user/user.module').then(m => m.UserModule)},
   {path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule)},
-  { path: '', redirectTo: '/user/login', pathMatch: 'full' }, // Redireciona para 'home' por padrão
+  {path:'login', component: LoginComponent},
+  { path: '', redirectTo: 'login', pathMatch: 'full' }, // Redireciona para 'home' por padrão
   { path: '**', component: RegisterComponent } // Página não encontrada
 ];

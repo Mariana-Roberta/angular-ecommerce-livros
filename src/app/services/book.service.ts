@@ -25,12 +25,21 @@ export class BookService {
       );
   }
 
+  getBookById(id: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${id}`);
+  }
+
+
   updateBook(id: number, book: any): Observable<any> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.put<any>(`${this.apiUrl}/editar/${id}`, book, { headers })
+
+    return this.http.put<any>(`${this.apiUrl}/editar/${id}`, book)
       .pipe(
         catchError(this.handleError<any>('updateBook'))
       );
+  }
+
+  deleteBook(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 
   searchBooks(term: string): Observable<any[]> {

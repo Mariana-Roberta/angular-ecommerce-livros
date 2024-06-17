@@ -11,7 +11,8 @@ export class OrderService {
 
   constructor(private http: HttpClient) {}
 
-  finalizeOrder(carrinhoId: number): Observable<any> {
+  finalizeOrder(carrinhoId: number
+  ): Observable<any> {
     const requestBody = { carrinhoId: carrinhoId };
     return this.http.post<any>(`${this.apiUrl}/finalizar`, requestBody)
       .pipe(

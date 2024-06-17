@@ -1,18 +1,6 @@
-
-<header>
-  <nav>
-    <ul>
-      <li><a routerLink="/login" routerLinkActive="active">Login</a></li>
-      <li><a routerLink="/admin/livro/cadastro" routerLinkActive="active">Cadastro Livro</a></li>
-      <li><a routerLink="/admin/livro/lista"  routerLinkActive="active">Lista Livros</a></li>
-    </ul>
-  </nav>
-</header>
-
-<div class="register-container">
-  <h2>Formulário de Cadastro de Livros</h2>
-  <form [formGroup]="registerForm" (ngSubmit)="registerBook()" class="register-form">
-
+<div class="edit-book-container">
+  <h2>Editar Livro</h2>
+  <form [formGroup]="registerForm" (ngSubmit)="updateBook()">
     <div class="form-field">
       <div class="label-input">
         <label for="titulo">Título</label>
@@ -48,7 +36,6 @@
       </div>
     </div>
 
-    <p-button label="Cadastrar" [raised]="true" type="submit"></p-button>
-
+    <p-button label="Atualizar Livro" icon="pi pi-check" type="submit"></p-button>
   </form>
 </div>

@@ -1,7 +1,6 @@
 package com.pom.spring_ecommerce_livros.model;
 
 import jakarta.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "usuarios")
@@ -34,6 +33,9 @@ public class Usuario {
 
 
   // Getters and setters
+  public void setId(Long id) {
+    this.id = id;
+  }
 
     public Long getId() {
         return id;

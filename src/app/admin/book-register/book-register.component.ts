@@ -4,7 +4,7 @@ import {InputTextModule} from "primeng/inputtext";
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {UserService} from "../../services/user.service";
 import {BookService} from "../../services/book.service";
-import {Router} from "@angular/router";
+import {Router, RouterLink, RouterLinkActive} from "@angular/router";
 
 @Component({
   selector: 'app-book-register',
@@ -12,7 +12,9 @@ import {Router} from "@angular/router";
     imports: [
         Button,
         InputTextModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        RouterLink,
+        RouterLinkActive
     ],
   templateUrl: './book-register.component.html',
   styleUrl: './book-register.component.scss'
