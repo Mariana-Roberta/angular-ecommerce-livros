@@ -3,6 +3,13 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "type": "java",
+      "name": "SpringEcommerceLivrosApplication",
+      "request": "launch",
+      "mainClass": "com.pom.spring_ecommerce_livros.SpringEcommerceLivrosApplication",
+      "projectName": "spring-ecommerce-livros"
+    },
+    {
       "name": "ng serve",
       "type": "chrome",
       "request": "launch",

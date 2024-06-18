@@ -49,12 +49,17 @@ public class PedidoService {
     pedido.setStatus("PENDENTE");
     pedido.setValor(valorTotalPedido);
     pedido = pedidoRepository.save(pedido);
+    //Factory Method
+    Produto produto = FactoryProduto.getProduto("LIVRO");
 
 
     for (ItemCarrinho itemCarrinho : itensCarrinho) {
       ItemPedido itemPedido = new ItemPedido();
       itemPedido.setPedido(pedido);
-      itemPedido.setLivro(itemCarrinho.getLivro());
+      //Produto recebe tipo Livro
+      produto = itemCarrinho.getLivro();
+      itemPedido.setLivro(produto);
+
       itemPedido.setQuantidade(itemCarrinho.getQuantidade());
       itemPedido.setValor(itemCarrinho.getValor());
 

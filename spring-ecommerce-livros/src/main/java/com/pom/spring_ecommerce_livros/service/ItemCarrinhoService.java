@@ -1,8 +1,10 @@
 package com.pom.spring_ecommerce_livros.service;
 
 import com.pom.spring_ecommerce_livros.model.Carrinho;
+import com.pom.spring_ecommerce_livros.model.FactoryProduto;
 import com.pom.spring_ecommerce_livros.model.ItemCarrinho;
 import com.pom.spring_ecommerce_livros.model.Livro;
+import com.pom.spring_ecommerce_livros.model.Produto;
 import com.pom.spring_ecommerce_livros.repository.CarrinhoRepository;
 import com.pom.spring_ecommerce_livros.repository.ItemCarrinhoRepository;
 import com.pom.spring_ecommerce_livros.repository.LivroRepository;

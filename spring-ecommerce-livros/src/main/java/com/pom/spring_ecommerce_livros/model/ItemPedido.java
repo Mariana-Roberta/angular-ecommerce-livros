@@ -16,7 +16,7 @@ public class ItemPedido {
 
   @ManyToOne
   @JoinColumn(name = "id_livro", nullable = false)
-  private Livro livro;
+  private Produto livro;
 
   @Column(name = "quantidade", nullable = false)
   private Integer quantidade;
@@ -38,11 +38,11 @@ public class ItemPedido {
     this.pedido = pedido;
   }
 
-  public Livro getLivro() {
+  public Produto getLivro() {
     return livro;
   }
 
-  public void setLivro(Livro livro) {
+  public void setLivro(Produto livro) {
     this.livro = livro;
   }
 

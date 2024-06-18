@@ -35,7 +35,8 @@ export class LoginComponent {
         console.log('Login successful', user);
         this.userAtual = user;
         this.authService.setUser(user);
-        this.router.navigate([`/${user.tipoUsuario.toLowerCase()}/home`]);
+        this.router.navigate([`/usuario/home`]);
+        //${user.tipoUsuario.toLowerCase()}
       },
       error => {
         console.error('Login failed', error);
