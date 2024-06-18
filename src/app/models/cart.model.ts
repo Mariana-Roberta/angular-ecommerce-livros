@@ -1,5 +1,11 @@
 export interface Cart {
-  id: number;
-  userId: number;
-  // Outros campos do carrinho, se houver
+  id: Number;
+  userId: Number;
+
+  getId(): number;
+  setId(id: number): void;
+
+  getUserId(): number;
+  setUserId(userId: number): void;
+
 }

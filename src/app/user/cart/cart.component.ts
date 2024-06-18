@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {NgForOf, NgIf} from "@angular/common";
-import {Router, RouterLink} from "@angular/router";
+import {Router, RouterLink, RouterLinkActive} from "@angular/router";
 import {Button, ButtonDirective} from "primeng/button";
 import {InputNumberModule} from "primeng/inputnumber";
 import {FormsModule} from "@angular/forms";
@@ -9,6 +9,7 @@ import {CartService} from "../../services/cart.service";
 import {OrderService} from "../../services/order.service";
 import {AuthService} from "../../services/auth.service";
 import {User} from "../../models/user.model";
+import {Cart} from "../../models/cart.model";
 
 @Component({
   selector: 'app-cart',
@@ -20,7 +21,8 @@ import {User} from "../../models/user.model";
     NgForOf,
     ButtonDirective,
     InputNumberModule,
-    FormsModule
+    FormsModule,
+    RouterLinkActive
   ],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.scss'
@@ -30,12 +32,21 @@ export class CartComponent {
   quantity: number = 1;
   orderId: number | null = null;
   userAtual: User | null = null;
+  cartAtual: Cart | null = null;
 
   @Output() quantityChange = new EventEmitter<number>();
 
   constructor(private cartService: CartService, private orderService: OrderService, private router: Router, private authService: AuthService) {
-    console.log("construtor", this.authService.userValue);
-
+    this.userAtual = this.authService.userValue;
+    if (this.userAtual !== null) {
+      this.authService.setUser(this.userAtual);
+      console.log("Recebeu o Usuario em Carrinho", this.userAtual);
+    }
+    this.cartAtual = this.cartService.cartValue;
+    if (this.cartAtual !== null) {
+      this.cartService.setCart(this.cartAtual);
+      console.log("Recebeu o Carrinho", this.cartAtual);
+    }
   }
 
   ngOnInit(): void {
@@ -44,29 +55,33 @@ export class CartComponent {
 
   // Método para carregar os itens do carrinho
   loadCartItems() {
-    this.cartService.getCartItems().subscribe(
-      (items: any[]) => {
-        console.log(items);
-        this.cartItems = items;
-      },
-      (error) => {
-        console.error('Erro ao carregar itens do carrinho:', error);
-      }
-    );
+    if (this.userAtual?.id) {
+      this.cartService.getCartItemsByUserId(this.userAtual.id).subscribe(
+        (items: any[]) => {
+          console.log(items);
+          this.cartItems = items;
+        },
+        (error) => {
+          console.error('Erro ao carregar itens do carrinho:', error);
+        }
+      );
+    } else {
+      console.error('ID do usuário não encontrado ou inválido.');
+    }
   }
 
- /* loadCartItemsByUserId(userId: Number) {
-    this.cartService.getCartItemsByUserId(userId).subscribe(
-      (items: any[]) => {
-        console.log(items);
-        this.cartItems = items;
-        console.log("byuserid",items);
-      },
-      (error) => {
-        console.error('Erro ao carregar itens do carrinho:', error);
-      }
-    );
-  }*/
+  /* loadCartItemsByUserId(userId: Number) {
+     this.cartService.getCartItemsByUserId(userId).subscribe(
+       (items: any[]) => {
+         console.log(items);
+         this.cartItems = items;
+         console.log("byuserid",items);
+       },
+       (error) => {
+         console.error('Erro ao carregar itens do carrinho:', error);
+       }
+     );
+   }*/
 
   trackById(index: number, item: any): number {
     return item.id; // Supondo que cada item do carrinho tenha um campo 'id'
@@ -87,25 +102,32 @@ export class CartComponent {
   }
 
   updateItemQuantity(itemId: number, quantidade: number) {
-    this.cartService.updateItemQuantity(itemId, quantidade).subscribe(
-      (response) => {
-        // Encontrar o item modificado na lista
-        const index = this.cartItems.findIndex(item => item.id === itemId);
-        if (index !== -1) {
-          this.cartItems[index] = response; // Substituir pelo item atualizado do servidor
+    if (this.userAtual?.id) {
+      if(this.cartAtual?.id) {
+      this.cartService.updateItemQuantityByItemId(this.cartAtual.id, itemId, quantidade).subscribe(
+        (response) => {
+          // Encontrar o item modificado na lista
+          const index = this.cartItems.findIndex(item => item.id === itemId);
+          if (index !== -1) {
+            this.cartItems[index] = response; // Substituir pelo item atualizado do servidor
+          }
+        },
+        (error) => {
+          console.error('Erro ao atualizar quantidade do item:', error);
         }
-      },
-      (error) => {
-        console.error('Erro ao atualizar quantidade do item:', error);
+      );} else {
+        console.error('Carrinho não encontrado ou inválido.');
       }
-    );
+    } else {
+      console.error('ID do usuário não encontrado ou inválido.');
+    }
   }
 
 
-  removeItem(item: any) {
-    this.cartService.removeItemFromCart(item.id).subscribe(
+  removeItem(itemId: number) {
+    this.cartService.removeItemFromCart(itemId).subscribe(
       () => {
-        this.cartItems = this.cartItems.filter(cartItem => cartItem.id !== item.id);
+        this.cartItems = this.cartItems.filter(cartItem => cartItem.id !== itemId);
       },
       (error) => {
         console.error('Erro ao remover item do carrinho:', error);

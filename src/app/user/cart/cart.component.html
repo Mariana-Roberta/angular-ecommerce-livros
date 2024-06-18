@@ -3,9 +3,9 @@
 <header>
   <nav>
     <ul>
-      <li><a routerLink="/home" routerLinkActive="active">Home</a></li>
-      <li><a routerLink="/shop" routerLinkActive="active">Shop</a></li>
-      <li><a routerLink="/cart" routerLinkActive="active">Cart</a></li>
+      <li><a routerLink="/usuario/home" routerLinkActive="active">Home</a></li>
+      <li><a routerLink="/usuario/carrinho" routerLinkActive="active">Carrinho</a></li>
+      <li><a routerLink="/usuario/pedidos" routerLinkActive="active">Pedido</a></li>
     </ul>
   </nav>
 </header>
@@ -36,7 +36,7 @@
             <p-inputNumber [ngModel]="item.quantidade" (ngModelChange)="updateItemQuantity(item.id, $event)" [min]="1" [max]="999" [step]="1"></p-inputNumber>
             <button pButton type="button" icon="pi pi-minus" (click)="decrementQuantity(item)"></button>
           </div>
-          <p-button class="remove_btn" (click)="removeItem(item)">Remover</p-button>
+          <p-button class="remove_btn" (click)="removeItem(item.id)">Remover</p-button>
         </div>
       </div>
     </div>

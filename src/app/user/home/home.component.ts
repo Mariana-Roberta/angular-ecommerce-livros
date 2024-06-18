@@ -2,7 +2,7 @@ import {Component, OnInit, EventEmitter, Input, Output} from '@angular/core';
 import {NgForOf, NgIf} from "@angular/common";
 import {CardModule} from "primeng/card";
 import {Button, ButtonDirective} from "primeng/button";
-import {Router} from "@angular/router";
+import {Router, RouterLink, RouterLinkActive} from "@angular/router";
 import {BookService} from "../../services/book.service";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {InputTextModule} from "primeng/inputtext";
@@ -23,12 +23,14 @@ import {AuthService} from "../../services/auth.service";
     InputTextModule,
     ReactiveFormsModule,
     InputNumberModule,
-    ButtonDirective
+    ButtonDirective,
+    RouterLink,
+    RouterLinkActive
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   @Input() books: any[] = [];
   quantity: number = 1;
   @Output() quantityChange: EventEmitter<number> = new EventEmitter<number>();
@@ -38,12 +40,14 @@ export class HomeComponent {
 
   constructor(private router: Router, private bookService: BookService, private cartService: CartService, private authService: AuthService) {
     this.userAtual = this.authService.userValue;
-    if(this.userAtual!==null) {
+    if (this.userAtual !== null) {
       this.authService.setUser(this.userAtual);
+      console.log("Recebeu o Usuario", this.userAtual);
     }
   }
 
   ngOnInit(): void {
+    console.log("Realizou ngOnInit()");
     this.loadBooks();
     this.checkAndLoadCart();
   }
@@ -67,30 +71,15 @@ export class HomeComponent {
           if (carrinho && carrinho.id) {
             console.log("Carrinho encontrado. ID:", carrinho.id);
             this.carrinhoId = carrinho.id;
-            // Carrega os itens do carrinho, se necessário
-            this.cartService.getCartItems();
+            this.cartService.setCart(carrinho);
+            console.log(this.cartService.cartValue);
           } else {
-            console.log("Nenhum carrinho encontrado para o usuário atual.");
-            if (this.userAtual?.id) {
-              if (this.carrinhoId === null) {
-                this.cartService.createCart(this.userAtual.id).subscribe(carrinho => {
-                  if (carrinho && carrinho.id) {
-                    console.log("Carrinho criado com sucesso. ID:", carrinho.id);
-                    this.carrinhoId = carrinho.id;
-                  } else {
-                    console.error('Erro ao criar o carrinho.');
-                  }
-                });
-              } else {
-                console.log("Carrinho já existe. ID:", this.carrinhoId);
-              }
-            } else {
-              console.error('ID do usuário não encontrado ou inválido.');
-            }
+            console.log("Nenhum carrinho encontrado para o usuário atual. Criando novo carrinho.");
+            // ... (Create new cart logic)
           }
         },
         (error) => {
-          console.error('Erro ao verificar o carrinho do usuário', error);
+          console.error('Erro ao verificar o carrinho do usuário:', error);
         }
       );
     } else {
@@ -98,11 +87,7 @@ export class HomeComponent {
     }
   }
 
-  navigateAndReload() {
-    this.router.navigate(['/usuario/home']).then(() => {
-      this.loadBooks(); // Carrega os livros novamente após a navegação
-    });
-  }
+
 
   addToCart(livroNome: string, quantidade: number) {
     this.bookService.findBookByName(livroNome).subscribe(book => {
@@ -135,15 +120,20 @@ export class HomeComponent {
   }
 
 
-
   private addOrUpdateItemInCart(livroId: number, quantidade: number) {
     if (this.carrinhoId !== null) {
-      this.cartService.getItemsByLivroId(this.carrinhoId, livroId).subscribe(items => {
+      if(this.userAtual?.id){
+      this.cartService.getCartItemsByUserId(this.userAtual.id).subscribe(items => {
         if (items && items.length > 0) {
+          console.log("ITEMS DO CART USUARIO", items);
           const itemId = items[0].id;
-          this.cartService.updateItemQuantity(itemId, quantidade).subscribe(() => {
+          if(this.carrinhoId!==null){ //o item que tiver o idcarrinho e o idlivro vai ser atualizado
+          this.cartService.updateItemQuantity(this.carrinhoId, livroId, quantidade).subscribe(() => {
             console.log('Quantidade do livro atualizada no carrinho.');
           });
+          } else {
+            console.error('Não foi possível atualizar a quantidade do livro no carrinho.');
+          }
         } else {
           if (this.carrinhoId !== null) {
             this.cartService.addItemToCart(this.carrinhoId, livroId, quantidade).subscribe(() => {
@@ -151,7 +141,9 @@ export class HomeComponent {
             });
           }
         }
-      });
+      });} else {
+        console.error('Usuário não encontrado');
+      }
     }
   }
 

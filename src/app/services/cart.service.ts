@@ -9,11 +9,26 @@ import {Cart} from "../models/cart.model";
   providedIn: 'root'
 })
 export class CartService {
-  private cart: any[] = [];
-  private cartSubject = new BehaviorSubject<any[]>(this.cart);
+  private cartSubject: BehaviorSubject<Cart | null>;
+  public cart: Observable<Cart | null>;
   private apiUrl = 'http://localhost:8080/usuario/carrinho';
 
   constructor(private http: HttpClient) {
+    this.cartSubject = new BehaviorSubject<Cart | null>(null);
+    this.cart = this.cartSubject.asObservable();
+  }
+
+  public get cartValue(): Cart | null {
+    return this.cartSubject.value;
+  }
+
+  setCart(cart: Cart) {
+    this.cartSubject.next(cart);
+  }
+
+  getCart(carrinhoId: Number): Observable<any> {
+    const url = `${this.apiUrl}/cart/${carrinhoId}`; // Ajuste o endpoint da sua API conforme necessário
+    return this.http.get<any>(url);
   }
 
   getCartByUserId(userId: Number): Observable<any> {
@@ -33,16 +48,34 @@ export class CartService {
       );
   }
 
-  getItemsByLivroId(carrinhoId: number, livroId: number): Observable<any[]> {
-    const url = `${this.apiUrl}/itens?livroId=${livroId}`;
-    return this.http.get<any[]>(url);
+  getItemsByCarrinhoIdAndLivroId(carrinhoId: Number, livroId: number): Observable<any[]> {
+    const url = `${this.apiUrl}/livro?livroId=${livroId}/cart?cartId=${carrinhoId}`;
+    const requestBody = {carrinhoId: carrinhoId, livroId: livroId};
+    return this.http.put<any>(url, requestBody)
+      .pipe(
+        map(response => response),
+        catchError(this.handleError)
+      );
   }
 
-  updateItemQuantity(itemId: number, quantidade: number): Observable<any> {
-    const url = `${this.apiUrl}/item/${itemId}`;
+  updateItemQuantity(carrinhoId: Number, livroId: number, quantidade: number): Observable<any> {
+    const url = `${this.apiUrl}/book/cart`;
     const request = {quantidade};
+    const requestBody = {carrinhoId: carrinhoId, livroId: livroId,quantidade: quantidade};
 
-    return this.http.put<any>(url, request)
+    return this.http.put<any>(url, requestBody)
+      .pipe(
+        map(response => response),
+        catchError(this.handleError)
+      );
+  }
+
+  updateItemQuantityByItemId(carrinhoId: Number, itemId: number, quantidade: number): Observable<any> {
+    const url = `${this.apiUrl}/item/cart`;
+    const request = {quantidade};
+    const requestBody = {carrinhoId: carrinhoId, itemId: itemId,quantidade: quantidade};
+
+    return this.http.put<any>(url, requestBody)
       .pipe(
         map(response => response),
         catchError(this.handleError)

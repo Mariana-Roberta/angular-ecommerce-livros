@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
+@DiscriminatorValue("LIVRO")
 //@Table(name = "livros")
 public class Livro extends Produto{
     //@Id

@@ -20,11 +20,6 @@ public class CarrinhoService {
   @Autowired
   private CarrinhoRepository carrinhoRepository;
 
-  @Autowired
-  private ItemCarrinhoRepository itemCarrinhoRepository;
-
-  @Autowired
-  private LivroRepository livroRepository;
 
   @Autowired
   private UsuarioRepository usuarioRepository;

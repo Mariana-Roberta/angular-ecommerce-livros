@@ -51,7 +51,7 @@ public class PedidoService {
     pedido = pedidoRepository.save(pedido);
     //Factory Method
     Produto produto = FactoryProduto.getProduto("LIVRO");
-
+  System.out.println("Produto: " + produto);
 
     for (ItemCarrinho itemCarrinho : itensCarrinho) {
       ItemPedido itemPedido = new ItemPedido();

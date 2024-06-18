@@ -26,6 +26,7 @@ public class LivroController {
   @GetMapping("/lista")
   public ResponseEntity<List<Livro>> getAllLivro() {
     List<Livro> livros = livroService.findAll();
+    System.out.println("Livros do banco:" + livros);
     return ResponseEntity.ok(livros);
   }
 

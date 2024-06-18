@@ -3,9 +3,9 @@
 <header>
   <nav>
     <ul>
-      <li><a routerLink="/home" routerLinkActive="active">Home</a></li>
-      <li><a routerLink="/shop" routerLinkActive="active">Shop</a></li>
-      <li><a routerLink="/cart" routerLinkActive="active">Cart</a></li>
+      <li><a routerLink="/usuario/home" routerLinkActive="active">Home</a></li>
+      <li><a routerLink="/usuario/carrinho" routerLinkActive="active">Carrinho</a></li>
+      <li><a routerLink="/usuario/pedidos" routerLinkActive="active">Pedido</a></li>
     </ul>
   </nav>
 </header>
@@ -15,27 +15,37 @@
 </div>
 
 <div class="cart-container">
-  <div *ngIf="cartItems.length > 0; else emptyCart" class="cart-items-list">
-    <div class="cart-item-card" *ngFor="let item of cartItems; trackBy: trackById">
-      <div class="cart-item-content">
-        <div class="book-content">
-          <div class="img"></div>
-          <div class="written-book-content">
-            <h3 class="item-title">{{ item.livro.titulo }}</h3>
-            <p class="item-author"><strong>Autor:</strong> {{ item.livro.autor }}</p>
-            <p class="item-synopses"><strong>Sinopse:</strong> {{ item.livro.sinopse }}</p>
-            <p class="item-price"><strong>Valor: R$</strong> {{ item.livro.valor }}</p>
-            <p class="item-quantity"><strong>Quantidade: </strong> {{ item.quantidade }}</p>
-          </div>
-        </div>
-        <div class="btns">
-          <div class="total-price">
-            <p class="item-total"><strong>Total: R$</strong> {{ item.livro.valor * item.quantidade }}</p>
-          </div>
-        </div>
-      </div>
+  <h3>Pedido
+  </h3>
+  <div class="surround-table" *ngIf="cartItems.length > 0; else emptyCart">
+    <table class="cart-items-table">
+      <thead>
+      <tr>
+        <th>Título</th>
+        <th>Autor</th>
+        <th>Sinopse</th>
+        <th>Preço</th>
+        <th>Quantidade</th>
+        <th>Total</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let item of cartItems; trackBy: trackById">
+        <td>{{ item.livro.titulo }}</td>
+        <td>{{ item.livro.autor }}</td>
+        <td>{{ item.livro.sinopse | slice: 0:50 }}...</td>
+        <td>R$ {{ item.livro.valor }}</td>
+        <td>{{ item.quantidade }}</td>
+        <td>R$ {{ item.livro.valor * item.quantidade }}</td>
+        <td></td>
+      </tr>
+      </tbody>
+    </table>
+    <div id="total"><p>Total: R$ {{ orderTotal }}</p></div>
+    <div id="btn">
+      <p-button label="Confirmar Pedido" (click)="confirmOrder()"></p-button>
     </div>
-    <p-button label="Confirmar Pedido" (click)="confirmOrder()" ></p-button><!-- método de deletar carrinho+itens e confirmar o status do pedido-->
   </div>
   <ng-template #emptyCart>
     <p>Seu pedido está vazio.</p>
